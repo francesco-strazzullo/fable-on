@@ -14,6 +14,7 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-ftp-deploy');
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-wiredep');
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -37,15 +38,23 @@ module.exports = function(grunt) {
           base: './app'
         }
       }
+    },
+    wiredep: {
+      run: {
+       src: [
+          'app/**/*.html'
+        ]
+      }
     }
   });
 
-  grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {   
+  grunt.registerTask('run', 'Compile then start a connect web server', function(target) {
     grunt.task.run([
+      'wiredep',
       'connect:server'
     ]);
   });
-  
+
   grunt.registerTask('deploy', [
     'ftp-deploy:receiver'
   ]);

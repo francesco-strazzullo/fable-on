@@ -1,36 +1,139 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="http://code.jquery.com/jquery-git2.js"></script>
+  	<!-- bower:css -->
+  	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+  	<link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
+  	<link rel="stylesheet" href="bower_components/slick.js/slick/slick.css" />
+  	<!-- endbower -->
     <style type="text/css">
-		body {
-			overflow:hidden;
-		}
 		div{
 			height:720PX;
 			width:1280PX;
-			text-align:center;
-			border:0px solid silver;
-			display: table-cell;
-			vertical-align:middle;
-			color:#000000;
-			background-color:#FFFFFF;
-			font-weight:bold;
-			font-family:Verdana, Geneva, sans-serif;
-			font-size:120px;
 		}
     </style>
-    <title>Cast Clock</title>
+     <style>
+    /* Style for our header texts
+	* --------------------------------------- */
+	h1{
+		font-size: 5em;
+		font-family: arial,helvetica;
+		color: #fff;
+		margin:0;
+		padding:0;
+	}
+
+	/* Centered texts in each section
+	* --------------------------------------- */
+	.section{
+		text-align:center;
+	}
+
+
+	/* Backgrounds will cover all the section
+	* --------------------------------------- */
+	#section1,
+	#section2,
+	#section3{
+		background-size: cover;
+	}
+
+	/* Defining each section background and styles
+	* --------------------------------------- */
+	#section1{
+		background-image: url(imgs/bg1.jpg);
+	}
+	#section2{
+		background-image: url(imgs/bg2.jpg);
+		padding: 6% 0 0 0;
+	}
+	#section3{
+		background-image: url(imgs/bg3.jpg);
+		padding: 6% 0 0 0;
+	}
+	#section3 h1{
+		color: #000;
+	}
+
+
+
+	#section1 h1{
+		position: absolute;
+		left: 0;
+		right: 0;
+		margin: 0 auto;
+		top: 30px;
+		color: #fff;
+	}
+
+	#section2 .intro{
+		position: absolute;
+		left: 0;
+		right: 0;
+		margin: 0 auto;
+		top: 30px;
+	}
+	#section2 h1,
+	#section2 p{
+		text-shadow: 1px 5px 20px #000;
+	}
+
+	#section3 h1,
+	#section3 p{
+		text-shadow: 1px 5px 20px #000;
+		color: #fff;
+	}
+
+	#infoMenu li a{
+			color: #fff;
+	}
+    </style>
+    <title>Fable On</title>
   </head>
   <body>
-	<div>
-		Fable On
+	<ul id="menu" style="display:none;">
+		<li data-menuanchor="page1" class="active"><a href="#page1">Page 1</a></li>
+		<li data-menuanchor="page2"><a href="#page2">Page 2</a></li>
+		<li data-menuanchor="page3"><a href="#page3">Page 3</a></li>
+	</ul>
+
+	<div id="slick">
+	    <div id="section1">
+	    	
+	    </div>
+	    <div id="section2">
+	    	
+	    </div>
+	    <div id="section3">
+	    	
+	    </div>
 	</div>
-	<script src="http://code.jquery.com/jquery-git2.js"></script>
+	<!-- bower:js -->
+	<script src="bower_components/jquery/dist/jquery.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+	<script src="bower_components/underscore/underscore.js"></script>
+	<script src="bower_components/underscore.string/lib/underscore.string.js"></script>
+	<script src="bower_components/slick.js/slick/slick.min.js"></script>
+	<!-- endbower -->
 	<script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
 	<script type="text/javascript">
 
 	$(document).ready(function() {
+		 //play sound!
+        var snd = new Audio("./audio/audio.mp3"); 
+        snd.play();
+
+		window.slick = $('#slick').slick({
+		  autoplay:false,
+		  autoplaySpeed:5000,
+		  dots: true,
+		  infinite: true,
+		  speed: 2000,
+		  fade: true,
+		  slide: 'div',
+		  cssEase: 'linear'
+		});
+
 	  window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
 	  
 	  
@@ -41,6 +144,13 @@
 		    window.close();
 	  	}
 	  };
+
+	  window.messageBus = window.castReceiverManager.getCastMessageBus('urn:x-cast:it.strazz.cast.fable');
+
+        // handler for the CastMessageBus message event
+        window.messageBus.onMessage = function(event) {
+          window.slick.slickNext();
+        }
 
 	  window.castReceiverManager.start();
 
