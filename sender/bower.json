@@ -1,0 +1,13 @@
+{
+  "name": "fable-on-client",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "~1.2.0",
+    "bootstrap": "~3.2.0",
+    "jquery": "*",
+    "fontawesome": "https://github.com/FortAwesome/Font-Awesome.git#latest",
+    "fastclick": "1.0.3",
+    "underscore": "*",
+    "underscore.string": "http://epeli.github.io/underscore.string/lib/underscore.string.js"
+  }
+}
