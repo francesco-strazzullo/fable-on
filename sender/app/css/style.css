@@ -1,3 +1,12 @@
 body{
-  font-family:"MissSmartyPants"
+  font-family:"MissSmartyPants";
+  height:100%;
+  background-image: url("../imgs/bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left top;
+}
+
+.script-text{
+  background: rgba(238, 238, 238, 0.6);
 }
