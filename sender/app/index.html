@@ -77,8 +77,14 @@
 
             receiverGoTo = function(to){
                 if (session!=null) {
-                    session.sendMessage(namespace, to, onMessageSuccess,onMessageError);
+                    session.sendMessage('urn:x-cast:it.strazz.cast.fable.state', to, onMessageSuccess,onMessageError);
                 };
+            };
+
+            receiverPlay = function(good){
+              if (session!=null) {
+                session.sendMessage('urn:x-cast:it.strazz.cast.fable.sound', good ? 'good' : 'error', onMessageSuccess,onMessageError);
+              };
             };
         </script>
     </head>

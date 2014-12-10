@@ -1,115 +1,135 @@
-  <!DOCTYPE html>
-  <html>
-    <head>
-    	<!-- bower:css -->
-    	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-    	<link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
-    	<link rel="stylesheet" href="bower_components/slick.js/slick/slick.css" />
-    	<!-- endbower -->
-      <style type="text/css">
-  		div{
-  			height:720PX;
-  			width:1280PX;
-  		}
-      </style>
-       <style>
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+  <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
+  <link rel="stylesheet" href="bower_components/slick.js/slick/slick.css" />
+  <!-- endbower -->
+  <style type="text/css">
+  div{
+    height:720PX;
+    width:1280PX;
+  }
+  </style>
+  <style>
 
-  	/* Backgrounds will cover all the section
-  	* --------------------------------------- */
-  	#section1,
-  	#section2,
-  	#section3,
-    #section4{
-  		background-size: cover;
-  	}
+  /* Backgrounds will cover all the section
+  * --------------------------------------- */
+  #section1,
+  #section2,
+  #section3,
+  #section4{
+    background-size: cover;
+  }
 
-  	/* Defining each section background and styles
-  	* --------------------------------------- */
-  	#section1{
-  		background-image: url(imgs/bg0.jpg);
-  	}
-  	#section2{
-  		background-image: url(imgs/bg2.jpg);
-  		padding: 6% 0 0 0;
-  	}
-  	#section3{
-  		background-image: url(imgs/bg3.jpg);
-  		padding: 6% 0 0 0;
-  	}
-    #section4{
-      background-image: url(imgs/bg1.jpg);
-      padding: 6% 0 0 0;
+  /* Defining each section background and styles
+  * --------------------------------------- */
+  #section1{
+    background-image: url(imgs/bg0.jpg);
+  }
+  #section2{
+    background-image: url(imgs/bg2.jpg);
+    padding: 6% 0 0 0;
+  }
+  #section3{
+    background-image: url(imgs/bg3.jpg);
+    padding: 6% 0 0 0;
+  }
+  #section4{
+    background-image: url(imgs/bg1.jpg);
+    padding: 6% 0 0 0;
+  }
+  </style>
+  <title>Fable On</title>
+</head>
+<body>
+  <ul id="menu" style="display:none;">
+    <li data-menuanchor="page1" class="active"><a href="#page1">Page 1</a></li>
+    <li data-menuanchor="page2"><a href="#page2">Page 2</a></li>
+    <li data-menuanchor="page3"><a href="#page3">Page 3</a></li>
+  </ul>
+
+  <div id="slick">
+    <div id="section1">
+
+    </div>
+    <div id="section2">
+
+    </div>
+    <div id="section3">
+
+    </div>
+    <div id="section4">
+
+    </div>
+  </div>
+  <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="bower_components/underscore/underscore.js"></script>
+  <script src="bower_components/underscore.string/lib/underscore.string.js"></script>
+  <script src="bower_components/slick.js/slick/slick.min.js"></script>
+  <script src="bower_components/soundmanager2/script/soundmanager2.js"></script>
+  <!-- endbower -->
+  <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
+  <script type="text/javascript">
+
+  $(document).ready(function() {
+    var goodSound;
+    var badSound;
+    
+    soundManager.setup({
+      onready: function() {
+        goodSound = soundManager.createSound('good',"./audio/good.mp3");
+        badSound = soundManager.createSound('bad',"./audio/bad.mp3");
+      }
+    });
+
+    var slides = ['home','dwarfs','grumpy','end'];
+
+    window.slick = $('#slick').slick({
+      speed: 500,
+      fade: true,
+      slide: 'div',
+      cssEase: 'linear'
+    });
+
+    window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+
+
+    // Chiudo l'applicazione quando non ci sono più sender collegati
+    castReceiverManager.onSenderDisconnected = function(event) {
+      console.log('Received Sender Disconnected event: ' + event.data);
+      if (window.castReceiverManager.getSenders().length == 0) {
+        window.close();
+      }
+    };
+
+    window.stateBus = window.castReceiverManager.getCastMessageBus('urn:x-cast:it.strazz.cast.fable.state');
+    window.soundBus = window.castReceiverManager.getCastMessageBus('urn:x-cast:it.strazz.cast.fable.sound');
+
+    window.stateBus.onMessage = function(event) {
+      var index = _.indexOf(slides,event.data);
+      window.slick.slickGoTo(index);
     }
-      </style>
-      <title>Fable On</title>
-    </head>
-    <body>
-  	<ul id="menu" style="display:none;">
-  		<li data-menuanchor="page1" class="active"><a href="#page1">Page 1</a></li>
-  		<li data-menuanchor="page2"><a href="#page2">Page 2</a></li>
-  		<li data-menuanchor="page3"><a href="#page3">Page 3</a></li>
-  	</ul>
 
-  	<div id="slick">
-  	    <div id="section1">
+    window.soundBus.onMessage = function(event) {
 
-  	    </div>
-  	    <div id="section2">
+      var sound;
 
-  	    </div>
-  	    <div id="section3">
+      if('error'===event.data){
+        sound=badSound;
+      }else{
+        sound=goodSound;
+      }
 
-  	    </div>
-        <div id="section4">
+      sound.play();
+    }
 
-        </div>
-  	</div>
-  	<!-- bower:js -->
-  	<script src="bower_components/jquery/dist/jquery.js"></script>
-  	<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-  	<script src="bower_components/underscore/underscore.js"></script>
-  	<script src="bower_components/underscore.string/lib/underscore.string.js"></script>
-  	<script src="bower_components/slick.js/slick/slick.min.js"></script>
-  	<!-- endbower -->
-  	<script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
-  	<script type="text/javascript">
+    window.castReceiverManager.start();
 
-  	$(document).ready(function() {
-  		 //play sound!
-          var snd = new Audio("./audio/audio.mp3");
-          snd.play();
-
-          var slides = ['home','dwarfs','grumpy','end'];
-
-  		window.slick = $('#slick').slick({
-  		  speed: 500,
-  		  fade: true,
-  		  slide: 'div',
-  		  cssEase: 'linear'
-  		});
-
-  	  window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
-
-
-  	  // Chiudo l'applicazione quando non ci sono più sender collegati
-  	  castReceiverManager.onSenderDisconnected = function(event) {
-  	    console.log('Received Sender Disconnected event: ' + event.data);
-  	    if (window.castReceiverManager.getSenders().length == 0) {
-  		    window.close();
-  	  	}
-  	  };
-
-  	  window.messageBus = window.castReceiverManager.getCastMessageBus('urn:x-cast:it.strazz.cast.fable');
-
-          // handler for the CastMessageBus message event
-          window.messageBus.onMessage = function(event) {
-            var index = _.indexOf(slides,event.data);
-            window.slick.slickGoTo(index);
-          }
-
-  	  window.castReceiverManager.start();
-
-  	});
-  	</script>
-    </body>
-  </html>
+  });
+  </script>
+</body>
+</html>

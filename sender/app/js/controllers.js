@@ -7,10 +7,12 @@ angular.module('fable-on')
   }])
   .controller('Dwarfs', ['$scope', '$state', function($scope, $state) {
     $scope.error = function() {
+      window.receiverPlay(false);
       swal("Sbagliato!", null, "error");
     }
 
     $scope.good = function() {
+      window.receiverPlay(true);
       swal({
           title: "Esatto!",
           type: "success",
@@ -25,10 +27,12 @@ angular.module('fable-on')
   }])
   .controller('Grumpy', ['$scope', '$state', function($scope, $state) {
     $scope.error = function() {
+      window.receiverPlay(false);
       swal("Sbagliato!", null, "error");
     }
 
     $scope.good = function() {
+      window.receiverPlay(true);
       swal({
           title: "Esatto!",
           type: "success",
