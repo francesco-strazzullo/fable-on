@@ -9,6 +9,7 @@
     "fontawesome": "https://github.com/FortAwesome/Font-Awesome.git#latest",
     "underscore": "*",
     "underscore.string": "*",
+    "bootstrap-sweetalert": "~0.4.3",
     "angular-ui-router": "~0.2.13"
   }
 }

@@ -6,8 +6,9 @@
         <!-- bower:css -->
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
-        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="bower_components/bootstrap-sweetalert/lib/sweet-alert.css" />
         <!-- endbower -->
+        <link rel="stylesheet" href="css/style.css" />
         <!-- bower:js -->
         <script src="bower_components/jquery/dist/jquery.js"></script>
         <script src="bower_components/angular/angular.js"></script>
@@ -15,6 +16,7 @@
         <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
         <script src="bower_components/underscore/underscore.js"></script>
         <script src="bower_components/underscore.string/lib/underscore.string.js"></script>
+        <script src="bower_components/bootstrap-sweetalert/lib/sweet-alert.js"></script>
         <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
         <!-- endbower -->
         <script src="js/app.js"></script>
@@ -73,9 +75,9 @@
                 console.log('message not sent');
             };
 
-            next = function(){
+            receiverGoTo = function(to){
                 if (session!=null) {
-                    session.sendMessage(namespace, "next", onMessageSuccess,onMessageError);
+                    session.sendMessage(namespace, to, onMessageSuccess,onMessageError);
                 };
             };
         </script>

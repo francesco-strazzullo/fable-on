@@ -18,10 +18,20 @@ angular
           controller: 'Home',
           templateUrl: "views/home.tpl.html"
         })
-        .state('start', {
-          url: "/start",
-          controller: 'Start',
-          templateUrl: "views/start.tpl.html"
+        .state('dwarfs', {
+          url: "/dwarfs",
+          controller: 'Dwarfs',
+          templateUrl: "views/dwarfs.tpl.html"
+        })
+        .state('grumpy', {
+          url: "/grumpy",
+          controller: 'Grumpy',
+          templateUrl: "views/grumpy.tpl.html"
+        })
+        .state('end', {
+          url: "/end",
+          controller: 'End',
+          templateUrl: "views/end.tpl.html"
         });
     }
   ]);
