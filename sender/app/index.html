@@ -3,10 +3,21 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Chromecast Apps</title>
+        <!-- bower:css -->
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
+        <!-- endbower -->
         <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <script src="http://code.jquery.com/jquery-git2.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
+        <!-- bower:js -->
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="bower_components/underscore/underscore.js"></script>
+        <script src="bower_components/underscore.string/lib/underscore.string.js"></script>
+        <!-- endbower -->
         <script type="text/javascript">
             var session;
             var namespace = 'urn:x-cast:it.strazz.cast.fable';
@@ -26,8 +37,8 @@
                                                     sessionListener,
                                                     receiverListener);
                 chrome.cast.initialize(
-                                apiConfig, 
-                                onInitSuccess, 
+                                apiConfig,
+                                onInitSuccess,
                                 onError);
 
             };
@@ -49,7 +60,7 @@
             launchApp = function() {
                 chrome.cast.requestSession(sessionListener, onError);
             };
-            
+
             sessionListener = function(s) {
                 console.log("session obtained");
                 session = s;

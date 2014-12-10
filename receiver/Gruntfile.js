@@ -42,7 +42,7 @@ module.exports = function(grunt) {
     wiredep: {
       run: {
        src: [
-          'app/**/*.html'
+          'app/index.html'
         ]
       }
     }
