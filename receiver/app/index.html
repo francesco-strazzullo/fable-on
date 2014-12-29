@@ -11,11 +11,7 @@
     height:720PX;
     width:1280PX;
   }
-  </style>
-  <style>
 
-  /* Backgrounds will cover all the section
-  * --------------------------------------- */
   #section1,
   #section2,
   #section3,
@@ -23,8 +19,6 @@
     background-size: cover;
   }
 
-  /* Defining each section background and styles
-  * --------------------------------------- */
   #section1{
     background-image: url(imgs/bg0.jpg);
   }
@@ -70,26 +64,32 @@
   <script src="bower_components/underscore/underscore.js"></script>
   <script src="bower_components/underscore.string/lib/underscore.string.js"></script>
   <script src="bower_components/slick.js/slick/slick.min.js"></script>
-  <script src="bower_components/soundmanager2/script/soundmanager2.js"></script>
+  <script src="bower_components/SoundJS/lib/soundjs-0.5.2.combined.js"></script>
   <!-- endbower -->
   <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
   <script type="text/javascript">
 
   $(document).ready(function() {
-    var goodSound;
-    var badSound;
     
-    soundManager.setup({
-      onready: function() {
-        goodSound = soundManager.createSound('good',"./audio/good.mp3");
-        badSound = soundManager.createSound('bad',"./audio/bad.mp3");
+    var audioPath = "audio/";
+    var manifest = [
+        {id:"Good", src:"good.mp3"},
+        {id:"Bad", src:"bad.mp3"},
+        {id:"Song", src:"song.mp3"}
+    ];
+
+    createjs.Sound.addEventListener("fileload", function(event){
+      if(event.id === "Song"){
+        createjs.Sound.play(event.id);
       }
     });
+
+    createjs.Sound.registerManifest(manifest, audioPath);
 
     var slides = ['home','dwarfs','grumpy','end'];
 
     window.slick = $('#slick').slick({
-      speed: 500,
+      speed: 2000,
       fade: true,
       slide: 'div',
       cssEase: 'linear'
@@ -115,16 +115,7 @@
     }
 
     window.soundBus.onMessage = function(event) {
-
-      var sound;
-
-      if('error'===event.data){
-        sound=badSound;
-      }else{
-        sound=goodSound;
-      }
-
-      sound.play();
+      createjs.Sound.play('error'===event.data ? 'Bad' : 'Good');
     }
 
     window.castReceiverManager.start();
